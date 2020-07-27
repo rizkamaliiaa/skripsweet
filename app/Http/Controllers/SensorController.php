@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Monitorings;
+use App\Controlling;
 
 class SensorController extends Controller
 {
@@ -24,21 +25,30 @@ class SensorController extends Controller
     	}
     	return $data;    	
     }
-    
-    public function dht($kode, $suhu){
-        $cek = Monitorings::where('kode_alat', $kode)->first();
 
-        if (isset($cek)) {
-            $dht = Monitorings::where('id', $cek->id)->update([
-                'kode_alat' => $kode,
-                'suhu' => $suhu
-            ]);
-        } else {
-            $dht = Monitorings::create([
-                'kode_alat' => $kode,
-                'suhu' => $suhu
-            ]);
-        }
-        return $dht;       
+    public function status_motor($kode, $status){
+		$cek = Controlling::updateOrCreate(
+			['kode_alat'=> $kode],
+			['status'=> $status]
+		);
+		return $cek;
+    	   	
     }
+    
+    // public function dht($kode, $suhu){
+    //     $cek = Monitorings::where('kode_alat', $kode)->first();
+
+    //     if (isset($cek)) {
+    //         $dht = Monitorings::where('id', $cek->id)->update([
+    //             'kode_alat' => $kode,
+    //             'suhu' => $suhu
+    //         ]);
+    //     } else {
+    //         $dht = Monitorings::create([
+    //             'kode_alat' => $kode,
+    //             'suhu' => $suhu
+    //         ]);
+    //     }
+    //     return $dht;       
+    // }
 }

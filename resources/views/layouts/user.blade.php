@@ -52,12 +52,12 @@
               <p>Unggas</p>
             </a>
           </li>
-          <li class="nav-item ">
+          {{-- <li class="nav-item ">
             <a class="nav-link" href="{{url('laporan')}}">
               <i class="material-icons">grid_on</i>
               <p>Laporan</p>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </div>
     </div>

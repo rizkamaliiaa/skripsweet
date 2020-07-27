@@ -13,7 +13,17 @@ class ControllingController extends Controller
 	public function index(){
         $controlling=Controlling::all();
         return response()->json($controlling);
-    }
+	}
+	
+	public function controlling(){
+		$auth = Auth::user();      
+		$data = Device::with('controlling')->where('user_id', $auth->id)->first();	
+		
+   		return response()->json([
+   			'status' =>  1,
+   			'data' => $data
+   		]);
+	}
 
     public function device(){
         $kode_alat = auth()->user()->kode_alat;
@@ -21,15 +31,15 @@ class ControllingController extends Controller
         return response()->json($controlling);
     }
 
-    public function kmin($kode_alat){       
-        $controlling = Device::where('kode_alat', $kode_alat)->with('controlling')->first();        
-        return response()->json($controlling->controlling->k_min,200);
-    }
+    // public function kmin($kode_alat){       
+    //     $controlling = Device::where('kode_alat', $kode_alat)->with('controlling')->first();        
+    //     return response()->json($controlling->controlling->k_min,200);
+    // }
 
-    public function kmax($kode_alat){       
-        $controlling = Device::where('kode_alat', $kode_alat)->with('controlling')->first();        
-        return response()->json($controlling->controlling->k_max);
-    }
+    // public function kmax($kode_alat){       
+    //     $controlling = Device::where('kode_alat', $kode_alat)->with('controlling')->first();        
+    //     return response()->json($controlling->controlling->k_max);
+    // }
 
 	public function jam($jam, $kode_alat){
 		$controlling = Device::where('kode_alat', $kode_alat)->with('controlling')->first(); 
@@ -54,40 +64,46 @@ class ControllingController extends Controller
 		$jam = date('H:i');
 		return response()->json($jam);
 	}
+	
+	public function pakan($kode_alat){
 
-	public function jumlah_unggas($kode_alat){
-		$controlling = Device::where('kode_alat', $kode_alat)->with('controlling')->first();    		
- 		return response()->json($controlling->controlling->jumlah_unggas);
+		$controlling = Device::with('controlling')->where('kode_alat', $kode_alat)->first(); 
+		$jmlhUnggas = $controlling->controlling->jumlah_unggas;
+		$tanggal = $controlling->controlling->tanggal_mulai;
+		
+		//jumlah perberian pakan berdasarkan jam yang di isi
+		$jmlhPemberian  = 0;
+		for ($i=1; $i <= 5 ; $i++) { 
+			$jam = 'jam'.$i;                   
+			if (isset($controlling->controlling->$jam)) {
+				$jmlhPemberian = $jmlhPemberian + 1;
+			}
+		}
+
+		$today = Carbon::now()->format('Y-m-d');
+		$new = Carbon::createFromFormat('Y-m-d',$tanggal);
+		$mingguPreeStarter = $new->addDayss(7)->format('Y-m-d');
+		$mingguStarter = $new->addDays(21)->format('Y-m-d');
+		$pakan = 0;
+
+		//logika cek hari ini untuk pemberian pakan
+		if ($today <= $mingguPreeStarter) {
+			// return 'minggu prestartter';
+			$pakanPrestarter = Unggas::where('id', 1)->first()->berat_pakan;
+			$pakan = $jmlhUnggas * $pakanPrestarter / $jmlhPemberian; 
+		} 
+		else if ($today <= $mingguStarter) {
+			// return 'minggu startter';
+			$pakanStarter = Unggas::where('id', 2)->first()->berat_pakan;
+			$pakan = $jmlhUnggas * $pakanStarter / $jmlhPemberian; 
+		} 
+		else {
+			// return 'minggu finisher';
+			$pakanFinisher = Unggas::where('id', 3)->first()->berat_pakan;
+			$pakan = $jmlhUnggas * $pakanFinisher / $jmlhPemberian; 
+		}
+
+		return response()->json($pakan);	
 	}
 	
-	public function tanggal(){
-		$auth = Auth::user();      
-		$controlling = Device::with('controlling')->where('user_id', $auth->id)->first(); 
-			$tanggal = $controlling->controlling->tanggal_mulai;
-			$tz= 'Asia/Jakarta'; 		
-			$new = Carbon::createFromFormat('Y-m-d',$tanggal);
-			echo $seminggu = $new->addWeeks(1);
-			echo "\n";
-					$tgl=date_create($tanggal); 
-					$tggl=date_create($seminggu);
-					$diff=date_diff($tgl,$tggl);
-					$tes=$diff->format("%a");
-					echo $tes;
-					echo "\n";
-			echo $tigaminggu = $seminggu->addWeeks(3);
-			echo "\n";			
-					$date1=date_create($tanggal); 
-					$date2=date_create($tigaminggu);
-					$diff=date_diff($date1,$date2);
-					$tes2=$diff->format("%a");
-					echo $tes2;
-					
-			
-			if($tes==7){
-				$prestarter = Unggas::where('id', '1')->value('berat_pakan');
-			}else{
-				return back();	
-			}				
-	}
-
 }

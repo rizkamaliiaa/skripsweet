@@ -16,8 +16,11 @@ class AdminController extends Controller
 	public function admin_home(){
 		$data['admin'] = User::where('roles', 1)->count();
 		$data['user'] = User::where('roles', 2)->count();
+
+		$device = Device::with('user')->get()->count();
+
 		// return $data;
-		return view('admin.adminhome', compact('data'));
+		return view('admin.adminhome', compact('data','device'));
 	}
 
 	public function admin(){		

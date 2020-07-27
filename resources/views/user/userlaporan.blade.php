@@ -18,16 +18,31 @@
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead class=" text-primary">
-                  <th class="">No</th>
-                  <th class="">Kode Alat</th>
-                  <th class="">Ternak</th>
-                  <th class="">Jam</th>
-                  <th class="">Ketinggian</th>
+                  <th>No</th>
+                  <th>Kode Alat</th>
+                  <th>Unggas</th>
+                  <th>Jumlah</th>
+                  <th>Tanggal Mulai</th>
+                  <th>Jam</th>
+                  <th>Status</th>
                 </thead>
                 <tbody>
+                  @php
+                    $no = 1;
+                  @endphp
+                @foreach ($lapor as $lapor)
                   <tr>
+                    <td>{{$no++}}</td>
+                    <td>{{ $lapor->kode_alat }}</td>
+                    <td>{{ $lapor->unggas }}</td>
+                    <td>{{ $lapor->controlling()->first()->jumlah_unggas }}</td>
+                    <td>{{ $lapor->controlling()->first()->tanggal_mulai }}</td>
+                    <td>{{ $lapor->controlling()->first()->jam1 }}</td>
                     
+                    <td>{{ $lapor->controlling()->first()->status }}</td>
+                                     
                   </tr>
+                @endforeach
                 </tbody>
               </table>
             </div>

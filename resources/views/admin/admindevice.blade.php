@@ -12,7 +12,7 @@
             <div class="card-icon">
               <i class="material-icons">assignment</i>
             </div>
-            <h4 class="card-title ">Tabel Device</h4>
+            <h4 class="card-title ">Tabel Alat</h4>
           </div>
 
           <div class="card-body">
@@ -23,7 +23,7 @@
             @endif
             <div class="row">
               <div class="col-12 text-right">
-                <button type="button" class="btn btn-rose pull-right" data-toggle="modal" data-target="#tambah">Add Device </button>
+                <button type="button" class="btn btn-rose pull-right" data-toggle="modal" data-target="#tambah">Tambah Alat </button>
 
               </div>
             </div>
@@ -42,7 +42,7 @@
                           <div class="col-md-12">
                             <div class="form-group">                                  
                               <label for="nama_depan" class="bmd-label-floating">Nama</label>
-                              <select type="text" class="form-control" name="user" required="true" aria-required="true">
+                              <select type="text" class="form-control" name="user_id" required="true" aria-required="true">
                                 <option value="">Pilih Nama</option>
                                 @foreach($users as $user)
                                 <option value="{{$user->id}}">{{ $user->nama_depan}} {{ $user->nama_belakang}}</option>
@@ -54,13 +54,8 @@
                         <div class="row">                    
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label for="unggas" class="bmd-label-floating">Ternak</label>
-                                <select type="text" class="form-control" name="unggas" required="true" aria-required="true">
-                                  <option value="">Pilih Ternak</option>     
-                                  @foreach($unggas as $row_unggas)
-                                  <option value="{{$row_unggas->id}}">{{ $row_unggas->nama}}</option>
-                                  @endforeach                                   
-                                </select>
+                              <label for="" class="bmd-label-floating">Ternak</label>
+                              <input type="text" class="form-control" name="unggas" value="" required="true" aria-required="true"> 
                             </div>
                           </div>
                         </div>
@@ -72,7 +67,7 @@
                                 </div>
                             </div> 
                         </div>                           
-                        <button type="submit" id="add" name="add" class="btn btn-rose pull-right">Add Device</button>                            
+                        <button type="submit" id="add" name="add" class="btn btn-rose pull-right">Tambah Alat</button>                            
                     </form>       
                   </div>                          
                 </div>
@@ -85,6 +80,7 @@
                 <tr>
                   <th>No</th>
                   <th>Nama</th>
+                  <th>No Hp</th>
                   <th>Kode Alat</th>
                   <th>Ternak</th>
                   <th>Aksi</th>
@@ -98,13 +94,14 @@
                 <tr>
                   <td>{{$no++}}</td>
                   <td>{{ $alat->user->nama_depan }} {{ $alat->user->nama_belakang }}</td>
+                  <td>{{ $alat->user->no_hp }}</td>
                   <td>{{ $alat->kode_alat }}</td>
-                  <td>{{ $alat->unggas()->first()->nama }}</td>
+                  <td>{{ $alat->unggas }}</td>
                   <td>
                     <div class="btn-group">
-                      <button title="Edit" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit_device" onclick="getDataEditDevice({{$alat->id}})">
+                      {{-- <button title="Edit" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit_device" onclick="getDataEditDevice({{$alat->id}})">
                         <i class="material-icons">edit</i>
-                      </button>
+                      </button> --}}
                       <button type="submit" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm" data-toggle="modal" data-target="#hapus{{ $alat->id }}">
                         <i class="material-icons">close</i>
                       </button>
@@ -122,7 +119,7 @@
   </div>
 </div>
 
-<!-- Edit modal -->
+{{-- <!-- Edit modal -->
 <div class="modal fade" id="edit_device" role="dialog">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -142,9 +139,9 @@
                   <label for="unggas" class="bmd-label-floating">Ternak</label>
                   <select type="text" class="form-control" id="unggas" name="unggas" required="true" aria-required="true">
                     <option value="">Pilih Ternak</option>
-                    @foreach($unggas as $row_unggas)
-                    <option value="{{$row_unggas->id}}">{{ $row_unggas->nama}}</option>
-                    @endforeach
+                    
+                    <option></option>
+                   
                   </select>
                 </div>
               </div>
@@ -155,7 +152,7 @@
     </div>
   </div>
 </div>
-<!-- end  -->
+<!-- end  --> --}}
 
 <!-- Hapus Modal -->
 <div class="modal fade" id="hapus{{ $alat->id }}" role="dialog">
@@ -169,7 +166,7 @@
             @csrf
             @method('delete')
           <div>
-            Apakah Anda yakin menghapus data alat dari {{ $alat->user->nama_depan }} {{ $alat->user->nama_belakang }}?
+            Apakah Anda yakin menghapus data alat {{ $alat->kode_alat }} dari {{ $alat->user->nama_depan }} {{ $alat->user->nama_belakang }}?
           </div>
             <button type="submit" name="delete" class="btn btn-rose pull-right">Hapus Data</button>                                    
         </form>                                                              
@@ -179,7 +176,7 @@
 </div>
 <!-- end  -->
 
-<!-- /edit modal -->
+{{-- <!-- /edit modal -->
 <script>
     var url_id = '{{ url('getdevice')}}';
     function getDataEditDevice(id){
@@ -190,7 +187,7 @@
             $('#id').val(data.id);
             $('#unggas').val(data.unggas);
         });
-    }
+    } --}}
 
 </script>
 @endsection

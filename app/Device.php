@@ -8,7 +8,7 @@ class Device extends Model
 {
    protected $table = 'device';
   
-   protected $fillable = ['kode_alat','user_id','unggas_id'];
+   protected $fillable = ['kode_alat','user_id','unggas'];
    
    public $timesstamps = true;
 
@@ -29,9 +29,7 @@ class Device extends Model
    		return $this->belongsTo('App\User');
    }
 
-   public function unggas(){
-      return $this->belongsTo('App\Unggas');
-  }
+   
 
 
    

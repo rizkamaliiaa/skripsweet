@@ -13,9 +13,10 @@ class KontrolController extends Controller
 {
     public function index(){
     	$auth = Auth::user();      
-        $device = Device::with('unggas', 'controlling')->where('user_id', $auth->id)->get();
+		$device = Device::with('controlling')->where('user_id', $auth->id)->get();
+		$unggas = Unggas::all();
        
-        return view('user.userunggas', compact('device'));
+        return view('user.userunggas', compact('device','unggas'));
     }
 
     public function create(){
@@ -23,11 +24,10 @@ class KontrolController extends Controller
 	}
 
     public function store(Request $request){
-		
+
 		
 		$form_kontrol =array(
 			'tanggal_mulai' 	=> $request->tanggal_mulai,
-			'tanggal_selesai' 	=> $request->tanggal_selesai,
 			'jam1' 				=> $request->jam1, 
 			'jam2'  			=> $request->jam2,
 			'jam3'  			=> $request->jam3,
@@ -52,7 +52,6 @@ class KontrolController extends Controller
 
 		$form_kontrol =array(
 			'tanggal_mulai' 	=> $request->tanggal_mulai,
-			'tanggal_selesai' 	=> $request->tanggal_selesai,
 			'jam1' 				=> $request->jam1, 
 			'jam2'  			=> $request->jam2,
 			'jam3'  			=> $request->jam3,
@@ -60,13 +59,21 @@ class KontrolController extends Controller
 			'jam5'  			=> $request->jam5,
 			'k_min' 			=> $request->k_min,
 			'k_max' 			=> $request->k_max,
-			'jumlah_unggas' 	=> $request->jumlah_unggas
+			'jumlah_unggas' 	=> $request->jumlah_unggas,
 		);
 		
 		Controlling::whereId($id)->update($form_kontrol);
 		
 		return redirect('kontrol')->with('success', 'Data Berhasil Diupdate');
 	}
+
+	public function ketinggian(){
+		
+		return view('user.userhome');	
+
+	}
+
+	
 
 	
 }

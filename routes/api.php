@@ -18,16 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('ultrasonik/{kode}/{tinggi}', 'SensorController@ultrasonik');
+Route::get('motor/{kode}/{status}', 'SensorController@status_motor');
 
 // Route::get('dht/{kode}/{suhu}', 'SensorController@dht');
 
-Route::get('ketinggian/kmin/{kode_alat}', 'ControllingController@kmin');
-Route::get('ketinggian/kmax/{kode_alat}', 'ControllingController@kmax');
+// Route::get('ketinggian/kmin/{kode_alat}', 'ControllingController@kmin');
+// Route::get('ketinggian/kmax/{kode_alat}', 'ControllingController@kmax');
 
 Route::get('jam/{jam}/{kode_alat}', 'ControllingController@jam');
 Route::get('jamsekarang/{kode_alat}', 'ControllingController@jam_sekarang');
-
-Route::get('jumlah/jumlah_unggas/{kode_alat}', 'ControllingController@jumlah_unggas');
-Route::get('berat/beratpakan/{id}', 'ControllingController@berat');
-
+Route::get('pakan/{kode_alat}', 'ControllingController@pakan')->name('pakan');
 

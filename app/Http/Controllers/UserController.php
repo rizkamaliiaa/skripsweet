@@ -20,9 +20,32 @@ class UserController extends Controller
     	return view('user.userhome', compact('controlling'));
     }
 
-    public function create(){
+    public function ambilketinggian()
+	{
+		$auth = Auth::user();      
+		$data = Device::with('monitorings','controlling')->where('user_id', $auth->id)->first();	
 		
+		$tinggi= $data->monitorings->ketinggian;
+		$kmin = $data->controlling->k_min;
+		$kmax = $data->controlling->k_max;
+
+		if ($tinggi >= $kmax) {
+			$hasil= 'Pakan Penuh';
+			
+		} 
+		else if ($tinggi <= $kmin) {
+			$hasil= 'Isi Pakan';
+			
+		} 
+		else {
+			$hasil= 'Pakan Masih Tersedia';
+			
+		}
+
+		return $hasil;
 	}
+
+	
 
 
 		

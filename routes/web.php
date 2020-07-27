@@ -15,7 +15,6 @@ Route::get('/', function () {
     return view('landing');
 });
 
-
 Route::group(['middleware' => ['auth', 'roles']],function(){
 
     Route::group(['roles'=>'Admin'],function(){
@@ -53,11 +52,10 @@ Route::group(['middleware' => ['auth', 'roles']],function(){
     });
 
     Route::group(['roles'=>'User'],function(){
-        Route::get('/user', 'UserController@index');        
-        Route::resource('/kontrol','KontrolController');
-        Route::get('/laporan', function () {
-            return view('user.userlaporan');
-        });
+        Route::get('/user', 'UserController@index'); 
+        Route::get('/user', 'KontrolController@ketinggian');       
+        Route::resource('/kontrol','KontrolController');    
+        Route::get('/laporan', 'LaporController@index');
         Route::get('/setting', function () {
             return view('user.settingsuser');
         });
@@ -68,6 +66,8 @@ Route::group(['middleware' => ['auth', 'roles']],function(){
 
 
 Route::get('lihat-data', 'MonitoringsController@monitoring')->name('monitoring');
-Route::get('lihat', 'ControllingController@tanggal')->name('tanggal');
+Route::get('lihattuh', 'MonitoringsController@jam_sekarang')->name('jam_sekarang');
 
-Route::get('lihat/jam/{kode_alat}', 'ControllingController@jam');
+Route::get('ambilketinggian','UserController@ambilketinggian')->name('ambilketinggian');
+
+Route::get('lihatje', 'ControllingController@controlling')->name('controlling');

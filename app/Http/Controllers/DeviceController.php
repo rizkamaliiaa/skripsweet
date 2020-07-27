@@ -5,45 +5,43 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Device;
-use App\Unggas;
 use App\Controlling;
+use App\Monitorings;
 use Auth;
 
 class DeviceController extends Controller
 {
     
     public function index(){
-        $device = Device::with('user', 'controlling')->get();	
-        $users = User::all();
-        $unggas = Unggas::all();
-		return view('admin.admindevice', compact('device','users','unggas'));			
+     	$device = Device::with('user', 'controlling')->get();	
+        $users = User::where('roles', 2)->get();
+        
+		return view('admin.admindevice', compact('device','users'));			
 	}	
-
-	public function create(){
-		
-	}
 
 	public function store(Request $request){		
 		$newdevice =array(
 			'user_id'       => $request->user_id,
 			'kode_alat'		=> $request->kode_alat,
-			'unggas_id'       => $request->unggas_id,
+			'unggas' 		=> $request->unggas
 		);
 
 		$newcontrolling =array(
 			'kode_alat'		=> $request->kode_alat,	
+			'tanggal_mulai'	=> '2000-01-01',
 			'jam1' 			=> '00:00', 
 			'jam2'  		=> '00:00',
 			'jam3'  		=> '00:00',
 			'jam4'  		=> '00:00',
 			'jam5'  		=> '00:00',
 			'k_min' 		=> 0,
-			'k_max' 		=> 0		
+			'k_max' 		=> 0,
+			'jumlah_unggas' => 0,
+			'status'		=> 'OFF'
 		);
 
 		$newmonitoring =array(
 			'kode_alat'		=> $request->kode_alat,	
-			'jam'  			=> '00:00:00',
 			'ketinggian' 	=> 0,		
 		);
 	
@@ -51,6 +49,7 @@ class DeviceController extends Controller
 		Device::create($newdevice);
 		Controlling::create($newcontrolling);
 		Monitorings::create($newmonitoring);
+		
 		return redirect()->back();
 	}
 	
@@ -59,7 +58,7 @@ class DeviceController extends Controller
 		$newdevice =array(
 			'user_id'       => $request->user_id,
 			'kode_alat'		=> $request->kode_alat,
-			'unggas_id'     => $request->unggas_id,
+			
 			
 		);
 		

@@ -9,13 +9,9 @@ use App\User;
 class UnggasController extends Controller
 {
 
-public function index(){
+	public function index(){
 		$data = Unggas::all();
 		return view('admin/admindata', compact('data'));
-	}
-
-public function create(){
-		
 	}
 
 	public function store(Request $request){		

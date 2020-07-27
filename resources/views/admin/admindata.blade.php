@@ -12,13 +12,13 @@
             <div class="card-icon">
               <i class="material-icons">info</i>
             </div>
-            <h4 class="card-title ">Unggas</h4>
+            <h4 class="card-title ">Ayam</h4>
           </div>
 
           <div class="card-body">
             <div class="row">
               <div class="col-12 text-right">
-                <button type="button" class="btn btn-rose pull-right" data-toggle="modal" data-target="#tambahh">Add Unggas </button>
+                <button type="button" class="btn btn-rose pull-right" data-toggle="modal" data-target="#tambahh">Tambah Data Ayam </button>
               </div>
             </div>
 
@@ -58,7 +58,7 @@
                         </div>
                       </div>                                  
                       
-                        <button type="submit" name="add" class="btn btn-rose pull-right">Add Data</button>
+                        <button type="submit" name="add" class="btn btn-rose pull-right">Tambah Data</button>
                       
                     </form>     
                   </div>                                                                
@@ -82,13 +82,13 @@
                           </label>
                         </div>
                       </td>
-                      <td>{{ $row->nama}} merupakan salah satu jenis dari ayam pedaging (broiler). {{ $row->nama}}  adalah ayam yang berumur {{ $row->keterangan}}</td>
+                      <td>{{ $row->keterangan}}. Berat pakan yang harus di konsumsi pada fase ini adalah {{ $row->berat_pakan}} gram perharinya.</td>
                       <td class="td-actions text-left">
-                        <button type="button" rel="tooltip" title="Show Task" class="btn btn-link btn-warning btn-just-icon edit" data-toggle="modal" data-target="#show{{ $row->device_id }}">
+                        {{-- <button type="button" rel="tooltip" title="Show Task" class="btn btn-link btn-warning btn-just-icon edit" data-toggle="modal" data-target="#show{{ $row->device_id }}">
                           <i class="material-icons">dvr</i>
-                        </button>
+                        </button> --}}
 
-                        <!-- Show Modal -->
+                        {{-- <!-- Show Modal -->
                         <div class="modal fade" id="show{{ $row->device_id }}" role="dialog">
                           <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -103,13 +103,13 @@
                                     {{ $row->keterangan}}
                                   </div> 
                                   <div>
-                                    {{ $row->berat_pakan}}
+                                    Berat pakannya adalah {{ $row->berat_pakan}} gram perhari
                                   </div>  
                                 </form>                                         
                               </div>                              
                             </div>
                           </div>
-                        </div>
+                        </div> --}}
 
                         <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit{{ $row->id }}">
                           <i class="material-icons">edit</i>

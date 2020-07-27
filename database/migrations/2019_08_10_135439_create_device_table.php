@@ -16,10 +16,8 @@ class CreateDeviceTable extends Migration
         Schema::create('unggas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama');
-            $table->text('keterangan');
-            $table->integer('berat_pakan');           
-            $table->timestamps();
-            
+            $table->text('keterangan');          
+            $table->timestamps();           
         });
 
         Schema::defaultStringLength(191);
@@ -32,6 +30,15 @@ class CreateDeviceTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('unggas_id')->references('id')->on('unggas')->onUpdate('cascade')->onDelete('cascade');
         });
+
+        Schema::create('kategori_ayam', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nama');
+            $table->integer('berat_pakan');           
+            $table->timestamps();
+            $table->foreign('unggas_id')->references('id')->on('unggas')->onUpdate('cascade')->onDelete('cascade');
+            
+        });
     }
 
     /**
@@ -43,5 +50,6 @@ class CreateDeviceTable extends Migration
     {
         Schema::dropIfExists('unggas');
         Schema::dropIfExists('device');
+        Schema::dropIfExists('kategori_ayam');
     }
 }
